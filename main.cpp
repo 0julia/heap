@@ -1,16 +1,38 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
+#include <cmath>
 using namespace std;
 
 
+struct Sort{
+  int firstSpot(int count, ifstream& f, int array[]){//reconsider returntype
+    f >> array[count];
+    while(count != 1 && needSwap(array, count) == true){
+      count = swap(array, count); //
+    }
+    return array[100];
+  }
+  bool needSwap(int array[], int count){
+    //check if child is bigger than parent
+    bool tf = false;
+    if (array[count] > array[count/2]){
+      cout << "Parent: " << array[count/2] << " Child: " << array[count] << endl;
+      tf = true;
+    }
+    return tf;
+  }
+  int swap(){//return new index
+    //swap parent and child
+    return 0;
+  }
+};
+
 bool query();
-int sort(int count, ifstream& f, int array[]){//do i make int array[100]?
-  f >> array[count];
-  return array[100];
-}
+
 
 int main(){
+  Sort s;
   int array[100];
   int num;
   query();
@@ -18,7 +40,7 @@ int main(){
     int count = 1;
     ifstream f("nums.txt");
     while(count < 101 && f){
-      sort(count, f, array);//[100]);
+      s.firstSpot(count, f, array);//[100]);
       //f >> array[count];//this is how you insert the num
       count++;
     }
