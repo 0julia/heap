@@ -5,21 +5,24 @@ using namespace std;
 
 
 bool query();
-int sort(int num, int array[]);//do i make int array[100]?
-
+int sort(int count, ifstream& f, int array[]){//do i make int array[100]?
+  f >> array[count];
+  return array[100];
+}
 
 int main(){
   int array[100];
   int num;
   query();
   if (query){
-    int count;
-    fstream f("nums.txt");
-    while(count < 100 && f >> array[count]){
-      
+    int count = 1;
+    ifstream f("nums.txt");
+    while(count < 101 && f){
+      sort(count, f, array);//[100]);
+      //f >> array[count];//this is how you insert the num
       count++;
     }
-    for(int i=1;i<100;i++){
+    for(int i=1;i<101;i++){
       
       cout << array[i]<<endl;
     }
