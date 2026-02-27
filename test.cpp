@@ -6,9 +6,10 @@ using namespace std;
 
 
 struct Sort{
-  void firstSpot(int count, int num, int array[]){
+  void firstSpot(int count, int num, int array[]){//reconsider returntype
     array[count] = num;
     while(count != 1 && needSwap(array, count) == true){
+      //cout << "hmm";
       count = swap(count, array); //
     }
   }
@@ -47,54 +48,52 @@ void printTree(int array[], int lastIndex, int curIndex, int depth){
 }
 
 int main(){
-  cout << "Type 'f' to input file, 'a' to manually add number, 'd' to delete largest number, 'r' to remove all, 'p' to print, or 'q' to quit. " << endl;
+   cout << "Type 'f' to input file, 'a' to manually add number, 'd' to delete la\
+rgest number, 'r' to remove all, 'p' to print, or 'q' to quit. " << endl << endl;
+
   Sort s;
   int array[100];
-  char ask = query();
   int count = 1;
+  char ask = query();
   int num;
   while(ask != 'q'){
     if (ask == 'f'){
-      ifstream f("nums.txt");
+	ifstream f("nums.txt");
       while(count < 101 && f){
 	f >> num;
 	s.firstSpot(count, num, array);
 	count++;
       }
     } else if(ask == 'a'){
-	cout << "What number would you like to add? ";
+      while(num != -1){
+	cout << "What number would you like to add? (type '-1' to quit) ";
 	cin >> num;
-	array[count] = num;
-	s.firstSpot(count, num, array);
-	count++;
-	//array[count] = num;
-	count++;
-    } else if(ask == 'p'){
-      cout << endl;
-      for (int i = 1; i <= count; i++){
-	cout << array[i]<< endl;
+	if(num != -1){
+	  s.firstSpot(count, num, array);
+	  count++;
+	}
       }
-      cout << endl << endl;
-      printTree(array, count, 1, 0);
-      cout << endl;
-    }  else if(ask == 'd'){
-      cout << array[1];
+      num = 0;      
+    } else if(ask == 'd'){
+      cout << "now delete" << endl;
     } else if(ask == 'r'){
-      cout << "working on that" << endl;
+      cout << "now remove all" << endl;
+    } else if(ask == 'p'){
+      printTree(array, count, 1, 0);
     }
-    cout << endl;
+
     ask = query();
-    }
-
-
+  }
   return 0;
 }
 
 
 char query(){
+  
   char ask;
-  cout << "What would you like to do?" << endl;
+  cout << endl << "What would you like to do? ";
   cin >> ask;
+  cout << endl;
   if (ask == 'f'){
     return 'f';
   } else if (ask == 'a'){
@@ -108,10 +107,24 @@ char query(){
   }else if(ask == 'q'){
     return 'q';
   }else{
-    cout << "That is not a valid command" << endl << "Type 'f' to input file, 'a' to manually add number, 'd' to delete largest number, 'r' to remove all, 'p' to print, or 'q' to quit. ";
+    cout << "That is not a valid command" << endl << "Type 'f' to input file, '\
+a' to manually add number, 'd' to delete largest number, 'r' to remove all, 'p'\
+ to print, or 'q' to quit. ";
     query();
   }
-  
 
+  /*
+  char ask;
+  cout << "Are you putting in a file? (type 'y' or 'n') ";
+  cin >> ask;
+  if (ask == 'y'){
+    return true;
+  } else if (ask == 'n'){
+    return false;
+  }else{
+    cout << "That is not a valid command" << endl;
+    query();
+  }
+  */
   return false;
 }
