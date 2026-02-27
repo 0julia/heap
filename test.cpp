@@ -30,18 +30,28 @@ struct Sort{
   }
 
 	
-  void deleteLargest(int array[], int count){
+  void deleteLargest(int array[], int &count){
+    //cout << "First: " <<endl;
+    //printTree(array, count+1, 1,0);
     int index=1;//where the removed  thing is
     cout << array[1] << endl;
     bool stillGoing = true;
     array[index] = array[count];
+    //cout << "2nd: " << endl;
+    //printTree(array, count+1, 1,0);
     while (array[index] < array[index*2] || array[index] < array[index*2+1]){
       if (array[index*2] < array[index*2+1]){ //if right is larger than left
 	index = (swap(index*2+1, array))*2+1;
       } else if(array[index*2] > array[index*2+1]){ // if left is bigger than right
 	index = 2*swap(index*2, array);
+      }else{
+	cout<< "Party! " << array[index*2+1];
+	break;
       }
     }
+    //cout<< "third: " << endl;
+    array[count] = 0;
+    //printTree(array, count+1, 1,0);
     count--;
   }
 };
@@ -74,7 +84,7 @@ rgest number, 'r' to remove all, 'p' to print, or 'q' to quit. " << endl << endl
     if (ask == 'f'){
       ifstream f("nums.txt");
       while(count < 101 && f>> num){
-	cout << num << " ";
+	//cout << num << " ";
 	count++;
 	s.firstSpot(count, num, array);
       }
@@ -89,14 +99,13 @@ rgest number, 'r' to remove all, 'p' to print, or 'q' to quit. " << endl << endl
       }
       num = 0;      
     } else if(ask == 'd'){
-      cout << "count: " << count << endl;
       s.deleteLargest(array, count);
-      count--;
+      //count--;
     } else if(ask == 'r'){
       cout << "now remove all" << endl;
-      for(int i = 1; i <=count; i++){
+      while(count >= 1){
 	s.deleteLargest(array,count);
-	count--;
+	//count--;
       }
     } else if(ask == 'p'){
       printTree(array, count+1, 1, 0);
