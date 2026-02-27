@@ -4,31 +4,45 @@
 #include <cmath>
 using namespace std;
 
-
+void printTree(int array[],int num, int othernum, int lastnum);
 struct Sort{
-  void firstSpot(int count, int num, int array[]){//reconsider returntype
+  void firstSpot(int count, int num, int array[]){ //puts the num at the end of the array
     array[count] = num;
-    while(count != 1 && needSwap(array, count) == true){
-      //cout << "hmm";
-      count = swap(count, array); //
+    while(count != 1 && needSwap(array, count) == true){ // then considers swapping
+      count = swap(count, array);
     }
   }
   
-  bool needSwap(int array[], int count){
+  bool needSwap(int array[], int count){ //check if needs swapping
     //check if child is bigger than parent
     bool tf = false;
     if (array[count] > array[count/2]){
-      //cout << "Parent: " << array[count/2] << " Child: " << array[count] << endl;
       tf = true;
     }
-    return tf;
+    return tf; //if needSwap is true, then will swap
   }
-  int swap(int count, int array[]){//return new index
+  int swap(int count, int array[]){//moves parent item to child then return new child index
     //swap parent and child
     int tempvar=array[count/2];
     array[count/2] = array[count];
     array[count] = tempvar;
     return (count/2);
+  }
+
+	
+  void deleteLargest(int array[], int count){
+    int index=1;//where the removed  thing is
+    cout << array[1] << endl;
+    bool stillGoing = true;
+    array[index] = array[count];
+    while (array[index] < array[index*2] || array[index] < array[index*2+1]){
+      if (array[index*2] < array[index*2+1]){ //if right is larger than left
+	index = (swap(index*2+1, array))*2+1;
+      } else if(array[index*2] > array[index*2+1]){ // if left is bigger than right
+	index = 2*swap(index*2, array);
+      }
+    }
+    count--;
   }
 };
 
@@ -53,33 +67,39 @@ rgest number, 'r' to remove all, 'p' to print, or 'q' to quit. " << endl << endl
 
   Sort s;
   int array[100];
-  int count = 1;
+  int count = 0;
   char ask = query();
   int num;
   while(ask != 'q'){
     if (ask == 'f'){
-	ifstream f("nums.txt");
-      while(count < 101 && f){
-	f >> num;
-	s.firstSpot(count, num, array);
+      ifstream f("nums.txt");
+      while(count < 101 && f>> num){
+	cout << num << " ";
 	count++;
+	s.firstSpot(count, num, array);
       }
     } else if(ask == 'a'){
       while(num != -1){
 	cout << "What number would you like to add? (type '-1' to quit) ";
 	cin >> num;
 	if(num != -1){
-	  s.firstSpot(count, num, array);
 	  count++;
+	  s.firstSpot(count, num, array);
 	}
       }
       num = 0;      
     } else if(ask == 'd'){
-      cout << "now delete" << endl;
+      cout << "count: " << count << endl;
+      s.deleteLargest(array, count);
+      count--;
     } else if(ask == 'r'){
       cout << "now remove all" << endl;
+      for(int i = 1; i <=count; i++){
+	s.deleteLargest(array,count);
+	count--;
+      }
     } else if(ask == 'p'){
-      printTree(array, count, 1, 0);
+      printTree(array, count+1, 1, 0);
     }
 
     ask = query();
@@ -113,18 +133,5 @@ a' to manually add number, 'd' to delete largest number, 'r' to remove all, 'p'\
     query();
   }
 
-  /*
-  char ask;
-  cout << "Are you putting in a file? (type 'y' or 'n') ";
-  cin >> ask;
-  if (ask == 'y'){
-    return true;
-  } else if (ask == 'n'){
-    return false;
-  }else{
-    cout << "That is not a valid command" << endl;
-    query();
-  }
-  */
   return false;
 }
