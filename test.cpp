@@ -35,7 +35,7 @@ struct Sort{
     //printTree(array, count+1, 1,0);
     int index=1;//where the removed  thing is
     cout << array[1] << endl;
-    bool stillGoing = true;
+    //bool stillGoing = true;
     array[index] = array[count];
     //cout << "2nd: " << endl;
     //printTree(array, count+1, 1,0);
@@ -82,7 +82,7 @@ rgest number, 'r' to remove all, 'p' to print, or 'q' to quit. " << endl << endl
   int num;
   while(ask != 'q'){
     if (ask == 'f'){
-      ifstream f("nums.txt");
+      ifstream f("text.txt");
       while(count < 101 && f>> num){
 	//cout << num << " ";
 	count++;
